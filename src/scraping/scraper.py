@@ -5,6 +5,7 @@ from selenium.webdriver.common.by import By
 from src.mongodb.models import Pokemon
 
 
+# pylint: disable=too-many-locals
 def scraper() -> None:
     tournament_id = "XYz2IB"
     pokemon = []
