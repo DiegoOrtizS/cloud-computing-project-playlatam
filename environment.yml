@@ -1,0 +1,8 @@
+name: playlatam-pokemon-vgc
+channels:
+  - defaults
+dependencies:
+  - python=3.10.6
+  - pip
+  - pip:
+    - -r requirements.txt
