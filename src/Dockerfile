@@ -18,4 +18,5 @@ COPY handlers/main.py ./
 COPY scraping ./scraping
 COPY utils ./utils
 COPY mongodb ./mongodb
+COPY .env ./
 CMD [ "main.handler" ]

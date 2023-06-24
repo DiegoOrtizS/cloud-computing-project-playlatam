@@ -1,18 +1,19 @@
 import os
 import sys
 
-from src.mongodb.config import Database
-from src.scraping.scraper import Scraper
-
 
 def main() -> None:
     """
-    Execute the scraper function from src/scraping//scraper.py
+    Execute the scraper function
     """
-    Database.initialize()
     src_path = os.path.abspath("src")
     sys.path.append(src_path)
-    Scraper().main()
+
+    from mongodb.config import Database
+    from scraping.scraper import Scraper
+
+    Database.initialize()
+    Scraper(tournament_id="8ozUQU").main()
 
 
 if __name__ == "__main__":

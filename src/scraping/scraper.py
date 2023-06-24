@@ -17,10 +17,9 @@ class Scraper:
     Scraper class to scrape data from the PlayLatam website.
     """
 
-    def __init__(self, tournament_id: str = "XYz2IB") -> None:
+    def __init__(self, deploy: bool = False, tournament_id: str = "XYz2IB") -> None:
         self.tournament_id: str = tournament_id
         options: Options = Options()
-        options.binary_location = "/opt/chrome/chrome"
         options.add_argument("--headless")
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-gpu")
@@ -28,11 +27,15 @@ class Scraper:
         options.add_argument("--disable-dev-shm-usage")
         options.add_argument("--disable-dev-tools")
         options.add_argument("--no-zygote")
-        service = Service("/opt/chromedriver")
-        self.driver: WebDriver = webdriver.Chrome(service=service, options=options)
+        self.driver: WebDriver
+        if deploy:
+            options.binary_location = "/opt/chrome/chrome"
+            service = Service("/opt/chromedriver")
+            self.driver = webdriver.Chrome(service=service, options=options)
+        else:
+            self.driver = webdriver.Chrome(options=options)
         self.url: str = TOURNAMENTS_ROSTER_URI + self.tournament_id
 
-    # pylint: disable=too-many-locals
     def scrap_and_insert_tournament_data(self) -> None:
         """
         Scrapes and inserts the tournament data into the database.
@@ -98,9 +101,12 @@ class Scraper:
         # Collect the href values first to avoid stale element reference
         for tr_element in tr_elements:
             td_element: WebElement = tr_element.find_elements(By.TAG_NAME, "td")[2]
-            a_element: WebElement = td_element.find_element(By.TAG_NAME, "a")
-            href: str = a_element.get_attribute("href")
-            href_list.append(href)
+            try:
+                a_element: WebElement = td_element.find_element(By.TAG_NAME, "a")
+                href: str = a_element.get_attribute("href")
+                href_list.append(href)
+            except Exception:
+                pass
 
         for href in href_list:
             self.driver.get(href)
