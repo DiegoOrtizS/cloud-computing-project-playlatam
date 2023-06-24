@@ -2,13 +2,13 @@ from mongodb import Database
 from scraping.scraper import Scraper
 
 
+# pylint: disable=broad-exception-caught
 def handler(event: dict, _context) -> dict:
     """
     Handler aws lambda function to run the scraper.
 
     Args:
         event (dict): Event from aws lambda.
-        _context (LambdaContext): Context from aws lambda.
 
     Returns:
         dict: Response from aws lambda with status code and body.
