@@ -32,6 +32,7 @@ class Scraper:
         self.driver: WebDriver = webdriver.Chrome(service=service, options=options)
         self.url: str = TOURNAMENTS_ROSTER_URI + self.tournament_id
 
+    # pylint: disable=too-many-locals
     def scrap_and_insert_tournament_data(self) -> None:
         """
         Scrapes and inserts the tournament data into the database.
@@ -39,7 +40,7 @@ class Scraper:
         self.driver.get(self.url)
 
         category: str = self.driver.find_element(By.TAG_NAME, "h1").text
-        type: str = self.driver.find_element(By.TAG_NAME, "h2").text
+        tournament_type: str = self.driver.find_element(By.TAG_NAME, "h2").text
 
         collection_items: list[str] = self.driver.execute_script(
             """
@@ -67,7 +68,7 @@ class Scraper:
             {
                 "_id": self.tournament_id,
                 "category": category,
-                "type": type,
+                "type": tournament_type,
                 "name": name,
                 "country": country,
                 "region": region,
