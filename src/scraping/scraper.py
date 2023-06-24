@@ -103,8 +103,7 @@ class Scraper:
             td_element: WebElement = tr_element.find_elements(By.TAG_NAME, "td")[2]
             try:
                 a_element: WebElement = td_element.find_element(By.TAG_NAME, "a")
-                href: str = a_element.get_attribute("href")
-                href_list.append(href)
+                href_list.append(a_element.get_attribute("href"))
             except Exception:
                 pass
 
