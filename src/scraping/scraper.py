@@ -209,6 +209,9 @@ class Scraper:
     def main(self) -> bool:
         """
         Main method to run the scraper.
+
+        Returns:
+            bool: True if the tournament was not in the database, False otherwise.
         """
         tournament: dict | None = Database.find_one(
             "tournament", {"_id": self.tournament_id}
