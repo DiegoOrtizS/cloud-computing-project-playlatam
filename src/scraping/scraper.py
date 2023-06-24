@@ -2,6 +2,7 @@ from datetime import datetime
 
 from bson.objectid import ObjectId
 from selenium import webdriver
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.webdriver import WebDriver
@@ -89,82 +90,80 @@ class Scraper:
         header_element: WebElement = self.driver.find_element(
             "xpath", "//h2[text()='Master Division']"
         )
-        table_element: WebElement = header_element.find_element(
-            "xpath", "./following-sibling::table[1]"
-        )
-        tr_elements: list[WebElement] = table_element.find_elements(
-            "xpath", ".//tr[position() > 1]"
+        elements: list[WebElement] = header_element.find_elements(
+            "xpath", "./following-sibling::table[1]//tr[position() > 1]"
         )
 
         href_list: list[str] = []
 
+        a_element: WebElement
         # Collect the href values first to avoid stale element reference
-        for tr_element in tr_elements:
+        for tr_element in elements:
             td_element: WebElement = tr_element.find_elements(By.TAG_NAME, "td")[2]
             try:
-                a_element: WebElement = td_element.find_element(By.TAG_NAME, "a")
+                a_element = td_element.find_element(By.TAG_NAME, "a")
                 href_list.append(a_element.get_attribute("href"))
-            except Exception:
+            except NoSuchElementException:
                 pass
 
         for href in href_list:
             self.driver.get(href)
-            a_element: WebElement = self.driver.find_element(
+            a_element = self.driver.find_element(
                 "xpath", "//a[normalize-space(@onclick)=\"translateTeam('ENG')\"]"
             )
             a_element.click()
 
-            li_elements: list[WebElement] = self.driver.find_elements(
+            elements = self.driver.find_elements(
                 "xpath", "//li[contains(@class, 'collection-item')]"
             )
 
             team_pokemon_list: list[dict] = []
 
-            for i in range(3, len(li_elements)):
+            for i in range(3, len(elements)):
                 name: str | None = (
-                    li_elements[i]
+                    elements[i]
                     .find_element("xpath", f".//span[@id='p{i-2}-name-s']")
                     .get_attribute("innerHTML")
                     or None
                 )
                 tera_type: str | None = (
-                    li_elements[i]
+                    elements[i]
                     .find_element("xpath", f".//img[@id='p{i-2}-teratype-icon-s']")
                     .get_attribute("alt")
                     or None
                 )
                 ability: str | None = (
-                    li_elements[i]
+                    elements[i]
                     .find_element("xpath", f".//span[@id='p{i-2}-ability-s']")
                     .get_attribute("innerHTML")
                     or None
                 )
                 item: str | None = (
-                    li_elements[i]
+                    elements[i]
                     .find_element("xpath", f".//span[@id='p{i-2}-item-s']")
                     .get_attribute("innerHTML")
                     or None
                 )
                 move1: str | None = (
-                    li_elements[i]
+                    elements[i]
                     .find_element("xpath", f".//span[@id='p{i-2}-m1-s']")
                     .get_attribute("innerHTML")
                     or None
                 )
                 move2: str | None = (
-                    li_elements[i]
+                    elements[i]
                     .find_element("xpath", f".//span[@id='p{i-2}-m2-s']")
                     .get_attribute("innerHTML")
                     or None
                 )
                 move3: str | None = (
-                    li_elements[i]
+                    elements[i]
                     .find_element("xpath", f".//span[@id='p{i-2}-m3-s']")
                     .get_attribute("innerHTML")
                     or None
                 )
                 move4: str | None = (
-                    li_elements[i]
+                    elements[i]
                     .find_element("xpath", f".//span[@id='p{i-2}-m4-s']")
                     .get_attribute("innerHTML")
                     or None
