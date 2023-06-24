@@ -14,7 +14,7 @@ provider:
 
 functions:
   extract_data_from_playlatam:
-    timeout: 60
+    timeout: 900
     memorySize: 2048
     image:
       name: img
