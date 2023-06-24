@@ -18,7 +18,7 @@ class Scraper:
     Scraper class to scrape data from the PlayLatam website.
     """
 
-    def __init__(self, deploy: bool = False, tournament_id: str = "XYz2IB") -> None:
+    def __init__(self, tournament_id: str, deploy: bool = False) -> None:
         self.tournament_id: str = tournament_id
         options: Options = Options()
         options.add_argument("--headless")
@@ -206,7 +206,7 @@ class Scraper:
             )
             self.driver.get(self.url)
 
-    def main(self) -> None:
+    def main(self) -> bool:
         """
         Main method to run the scraper.
         """
@@ -218,3 +218,6 @@ class Scraper:
             self.scrap_and_insert_tournament_data()
             self.scrap_and_insert_pokemon_data()
             self.driver.quit()
+            return True
+
+        return False
