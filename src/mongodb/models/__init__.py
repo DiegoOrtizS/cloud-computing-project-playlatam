@@ -1,1 +1,1 @@
-from src.mongodb.models.pokemon import Pokemon
+from mongodb.models.pokemon import Pokemon

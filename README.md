@@ -30,6 +30,19 @@ pre-commit install  # installs .git/hooks/pre-commit
 pre-commit install --hook-type pre-push  # installs .git/hooks/pre-push
 ```
 
+## Lambda
+
+Test it locally
+```shell
+serverless invoke local --function extract_data_from_playlatam
+```
+
+Deploy the lambda function with serverless
+```shell
+serverless deploy
+```
+
+
 ## Scraping
 
 ```shell
