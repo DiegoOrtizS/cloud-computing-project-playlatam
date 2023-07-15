@@ -9,7 +9,7 @@ const Detail = (props: PokemonDetailDTO) => {
       {props.pokemon.tera_type.map((type, index) => (
         <div key={index}>
           <p>Name: {type.name}</p>
-          <p>Usage: {type.usage}</p>
+          <p>Usage: {type.usage + "%"}</p>
           <br></br>
         </div>
       ))}
@@ -18,7 +18,7 @@ const Detail = (props: PokemonDetailDTO) => {
       {props.pokemon.ability.map((ability, index) => (
         <div key={index}>
           <p>Name: {ability.name}</p>
-          <p>Usage: {ability.usage}</p>
+          <p>Usage: {ability.usage + "%"}</p>
           <br></br>
         </div>
       ))}
@@ -27,7 +27,7 @@ const Detail = (props: PokemonDetailDTO) => {
       {props.pokemon.item.map((item, index) => (
         <div key={index}>
           <p>Name: {item.name}</p>
-          <p>Usage: {item.usage}</p>
+          <p>Usage: {item.usage + "%"}</p>
           <br></br>
         </div>
       ))}
@@ -36,7 +36,7 @@ const Detail = (props: PokemonDetailDTO) => {
       {props.pokemon.moves.map((move, index) => (
         <div key={index}>
           <p>Name: {move.name}</p>
-          <p>Usage: {move.usage}</p>
+          <p>Usage: {move.usage + "%"}</p>
           <br></br>
         </div>
       ))}
