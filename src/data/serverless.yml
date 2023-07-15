@@ -1,0 +1,41 @@
+service: lambda-mongodb-scraping-data
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  region: us-west-2
+  stage: dev
+
+  ecr:
+    images:
+      img:
+        path: ./
+        platform: linux/amd64
+
+functions:
+  extract_data_from_playlatam:
+    timeout: 900
+    memorySize: 2048
+    image:
+      name: img
+
+  get_tournament_data:
+    handler: handlers/get_tournament_data.handler
+    runtime: python3.10
+    timeout: 30
+    memorySize: 2048
+
+  get_pokemon_data:
+    handler: handlers/get_pokemon_data.handler
+    runtime: python3.10
+    timeout: 30
+    memorySize: 2048
+
+  get_pokemon_detail:
+    handler: handlers/get_pokemon_detail.handler
+    runtime: python3.10
+    timeout: 30
+    memorySize: 2048
+
+plugins:
+  - serverless-python-requirements
