@@ -2,53 +2,34 @@ import React, { ReactElement, useRef, useState } from "react";
 import { TextField, InputAdornment, Button } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import styles from "./Search.module.css";
-
-const mockData = [
-  {
-    name: "Pikachu",
-    teraTypePercentage: 12.5,
-    moves: [
-      { name: "Thunderbolt", percentage: 25 },
-      { name: "Agility", percentage: 20 },
-      { name: "Thunder Wave", percentage: 15 },
-      // Add more moves as needed
-    ],
-    abilities: [
-      { name: "Static", percentage: 70 },
-      { name: "Lightning Rod", percentage: 30 },
-      // Add more abilities as needed
-    ],
-    baseStats: {
-      hp: 35,
-      atk: 55,
-      def: 40,
-      spa: 50,
-      spd: 50,
-      spe: 90,
-    },
-  },
-  // Add more mock data items as needed
-];
+import { getPokemonByTournamentId } from "../../use_cases/pokemon/getPokemonByTournamentId";
+import PokemonDTO from "../../context/dto/PokemonDTO";
+import { useRouter } from 'next/router';
+import Detail from "../detail/Detail";
+import { Route } from "react-router-dom";
+import { getTournament } from "../../use_cases/tournament/getTournament";
+import TournamentDTO from "../../context/dto/TournamentDTO";
 
 export const Search: React.FC = (): ReactElement => {
   const searchInputRef = useRef<HTMLInputElement>(null);
   const [searchValue, setSearchValue] = useState("");
-  const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [searchResults, setSearchResults] = useState<PokemonDTO[]>([]);
+  const [tournament, setTournament] = useState<TournamentDTO | null>(null);
+  const router = useRouter();
 
-  const handleSearch = () => {
-    // Simulating async search request
-    setTimeout(() => {
-      setSearchResults(
-        mockData.filter((data) => data.name.includes(searchValue))
-      );
-    }, 1000);
+  const handleSearch = async () => {
+    const responsePromise = getTournament(searchValue);
+    const pokemonPromise = getPokemonByTournamentId(searchValue);
+    const [response, pokemon] = await Promise.all([responsePromise, pokemonPromise]);
+    setTournament(response.data);
+    setSearchResults(pokemon.data.pokemon);
   };
 
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = async (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
       event.preventDefault();
       searchInputRef.current?.blur();
-      handleSearch();
+      await handleSearch();
     }
   };
 
@@ -59,7 +40,31 @@ export const Search: React.FC = (): ReactElement => {
   return (
     <div className={styles.container}>
       <header className={styles.header}>
-        <h1 className={styles.logo}>Your Logo</h1>
+        {tournament && (
+          <div>
+            <div key={tournament.category} className={styles.result}>
+              {tournament.category}
+            </div>
+            <div key={tournament.type} className={styles.result}>
+              {tournament.type}
+            </div>
+            <div key={tournament.name} className={styles.result}>
+              {tournament.name}
+            </div>
+            <div key={tournament.country} className={styles.result}>
+              {tournament.country}
+            </div>
+            <div key={tournament.region} className={styles.result}>
+              {tournament.region}
+            </div>
+            <div key={tournament.address} className={styles.result}>
+              {tournament.address}
+            </div>
+            <div key={tournament.date} className={styles.result}>
+              {tournament.date}
+            </div>
+          </div>
+        )}
       </header>
       <div className={styles.content}>
         <div className={styles.searchContainer}>
@@ -89,32 +94,20 @@ export const Search: React.FC = (): ReactElement => {
         {searchResults.length > 0 && (
           <div className={styles.resultsContainer}>
             <h2>Search Results</h2>
-            {searchResults.map((result, index) => (
-              <div key={index} className={styles.resultItem}>
-                <h3>{result.name}</h3>
-                <p>Tera Type: {result.teraTypePercentage}%</p>
-                <div>
-                  <h4>Moves:</h4>
-                  <ul>
-                    {result.moves.map((move, moveIndex) => (
-                      <li key={moveIndex}>
-                        {move.name}: {move.percentage}%
-                      </li>
-                    ))}
-                  </ul>
+            {searchResults.map((pokemon) => (
+              <div>
+                <div key={pokemon.name} className={styles.result}>
+                  {/* <a href={"detail/tournament_id/"+pastSearchValue+"/pokemon_name/"+pokemon.name}>
+                    {pokemon.name}
+                  </a> */}
+                  <button onClick={() => {
+                      router.push(`/detail/${tournament._id}/${encodeURIComponent(pokemon.name)}`);
+                  }}>
+                    {pokemon.name}
+                  </button>
                 </div>
-                <div>
-                  <h4>Abilities:</h4>
-                  <ul>
-                    {result.abilities.map((ability, abilityIndex) => (
-                      <li key={abilityIndex}>
-                        {ability.name}: {ability.percentage}%
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div className={styles.statsGraph}>
-                  {/* Render the graph of stats here */}
+                <div key={pokemon.usage} className={styles.result}>
+                  {pokemon.usage + "%"}
                 </div>
               </div>
             ))}
