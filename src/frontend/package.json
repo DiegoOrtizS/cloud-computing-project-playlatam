@@ -6,8 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "tsc --noEmit && next lint && yarn eslint \"{components,pages,utils,services,styles,use_cases,context}/**/*.{js,jsx,ts,tsx}\" --fix && yarn prettier \"{components,pages,utils,services,styles,use_cases,context}/**/*.{js,jsx,ts,tsx}\" --write",
-    "prepare": "husky install"
+    "lint": "tsc --noEmit && next lint && yarn eslint \"{components,pages,utils,services,styles,use_cases,context}/**/*.{js,jsx,ts,tsx}\" --fix && yarn prettier \"{components,pages,utils,services,styles,use_cases,context}/**/*.{js,jsx,ts,tsx}\" --write"
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",
