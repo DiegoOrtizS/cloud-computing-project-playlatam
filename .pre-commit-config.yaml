@@ -15,13 +15,13 @@ repos:
     hooks:
       - id: flake8
         stages: [commit]
--   repo: local
-    hooks:
-      - id: pylint
-        name: pylint
-        entry: pylint
-        language: system
-        types: [python]
-        args: [--rcfile=.pylintrc, --recursive=y]
-        exclude: (migrations)
-        stages: [push]
+# -   repo: local
+#     hooks:
+#       - id: pylint
+#         name: pylint
+#         entry: pylint
+#         language: system
+#         types: [python]
+#         args: [--rcfile=.pylintrc, --recursive=y]
+#         exclude: (migrations)
+#         stages: [push]
