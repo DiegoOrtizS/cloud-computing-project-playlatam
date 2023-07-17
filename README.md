@@ -49,8 +49,14 @@ python src/main.py
 ```
 
 ## Cloudwatch (monitoreo)
-Monitoreo de cloudwatch a las Lambdas. En esta primera imagen se pueden observar los distintos flujos con start y end de la lambda get tournament data. Un aspecto de mejora es la memoria usada, ya que solo se utilizaron 64 MB. En un inicio no estábamos seguros de cuánto iba a necesitar, por lo que en el .yml le pusimos que el max memory size sea de 2048 MB. Esto claramente es demasiado y se puede reducir para que se use solo lo necesario para optimizar mejor los recursos. Las otras lambdas con api gateway de GET tienen resultados bastantes similares en cuanto a tiempo de ejecución y memoria.
+Monitoreo por medio de cloudwatch a las Lambdas. 
+En esta primera imagen se pueden observar los distintos flujos con start y end de la lambda get tournament data. Un aspecto de mejora es la memoria usada, ya que solo se utilizaron 64 MB. En un inicio no estábamos seguros de cuánto iba a necesitar, por lo que en el .yml le pusimos que el max memory size sea de 2048 MB. Esto claramente es demasiado y se puede reducir para que se use solo lo necesario para optimizar mejor los recursos. Las otras lambdas con api gateway de GET tienen resultados bastantes similares en cuanto a tiempo de ejecución y memoria.
 ![Cloudwatch](cloudwatch.png)
+
+En esta segunda imagen podemos apreciar el cloudwatch a la lambda más pesada, donde se está utilizando más memoria y demora más tiempo. Esta es la de extracción de datos de playlatam que se ejecuta periódicamente por medio de un CRON. De igual manera, se puede mejorar reduciendo el max memory size.
+![Cloudwatch](cloudwatch-extract-data.png)
+
+Finalmente, cloudwatch también sirve para monitorear errores. Por el momento no ha ocurrido nada fuera de lo normal, pero si llega a ocurrir algún error se puede ver el traceback en el log guardado.
 
 
 ## MongoDB (cloud storage)
