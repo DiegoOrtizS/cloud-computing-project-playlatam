@@ -49,6 +49,8 @@ python src/main.py
 ```
 
 ## Cloudwatch (monitoreo)
+Monitoreo de cloudwatch a las Lambdas. En este caso se puede observar los distintos flujos con start y end. Hago hincapié en la memoria usada, ya que es un aspecto de mejora. Solo se utilizaron 64 MB, pero como no estábamos seguros en el yml le pusimos que el max memory size sea de 2048 MB, lo cual claramente es demasiado y se puede reducir para que se use solo lo necesario para optimizar mejor los recursos.
+![Cloudwatch](cloudwatch.png)
 
 
 ## MongoDB (cloud storage)
