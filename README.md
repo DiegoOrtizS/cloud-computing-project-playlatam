@@ -52,5 +52,6 @@ python src/main.py
 
 
 ## MongoDB (cloud storage)
-![Network metric mongodb atlas](network.png)
+Gráfico de métricas de Network, donde se pueden apreciar los bytes out, número de requests y bytes in. En este caso se ha intentado reducir al máximo el número de requests a MongoDB por uso de funciones como insert_many. Asimismo, de todos los bytes hay muy pocos que terminan ingresando a la base de datos porque pasa por un proceso de filtrado de los datos scrapeados, donde solo se insertan los relevantes para el estudio.
+![Network metric mongodb atlas](network-bytes.png)
 
