@@ -30,7 +30,7 @@ pre-commit install  # installs .git/hooks/pre-commit
 pre-commit install --hook-type pre-push  # installs .git/hooks/pre-push
 ```
 
-## Lambda function
+## Lambda function (serverless)
 Test it locally
 ```shell
 serverless invoke local --function extract_data_from_playlatam
@@ -47,3 +47,8 @@ serverless deploy
 ```shell
 python src/main.py
 ```
+
+## Cloudwatch (monitoreo)
+
+
+## MongoDB (cloud storage)
