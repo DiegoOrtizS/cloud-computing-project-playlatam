@@ -52,3 +52,5 @@ python src/main.py
 
 
 ## MongoDB (cloud storage)
+![Network metric mongodb atlas](network.png)
+
